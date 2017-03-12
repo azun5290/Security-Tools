@@ -3,29 +3,43 @@
 # import crypt
 import passlib
 import crypt
+import sys
 
 def testPass(cryptPass):
     salt = cryptPass[0:2]
-    dictFile = open('dictionary.txt', 'r')
-    for word in dictFile.readlines():
-        word = word.strip('\n')
-        cryptWord = crypt.crypt(word, salt)
+
+    with open('dictionary.txt', 'r') as f:
+        dictionary = f.readlines()
+
+    for word in dictionary:
+        cryptWord = crypt.crypt(word.strip('\n'), salt)
         if cryptWord == cryptPass:
-            print('[+] Found Password: ' + word + '\n')
-            return
-    print('[-] Password Not Found.\n')
+            return word
+
     return
 
 
 def main():
-    passFile = open('passwords.txt')
-    for line in passFile.readlines():
-        if ':' in line:
-            user = line.split(':')[0]
-            cryptPass = line.split(':')[1].strip(' ')
-            print('[*] Cracking Password For: ' + user)
-            testPass(cryptPass)
 
+    passwd_filename = sys.argv[1] if len(sys.argv) == 2 else 'passwords.txt'
+
+    with open(passwd_filename) as f:
+        content = f.readlines()
+
+    for line in content:
+        if ':' in line:
+            words = [word.strip() for word in line.split(':')]
+            user        = words[0]
+            cryptPass   = words[1]
+            print('[*] Cracking Password For: ' + user)
+            decryptPass = testPass(cryptPass)
+           
+            if not decryptPass:
+                output = 'Password Not Found.'
+            else:
+                output = 'Found Password: {}'.format(decryptPass)
+
+            print(output)
 
 if __name__ == '__main__':
     main()
