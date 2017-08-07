@@ -5,7 +5,7 @@ from passlib.hash import md5_crypt
 from passlib.hash import md5_crypt as md5
 from passlib.hash import sha256_crypt as sha256
 from passlib.hash import sha512_crypt as sha512
-
+ 
 '''
 Format & Algorithm
 [https://pythonhosted.org/passlib/lib/passlib.hash.sha256_crypt.html#f1]
