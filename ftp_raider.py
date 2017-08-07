@@ -2,7 +2,7 @@ import ftplib
 from threading import Thread
 
 fx = open(r'text_file', "w")
-
+ 
 def anonLogin(hostname):
     try:
         ftp = ftplib.FTP(hostname)
