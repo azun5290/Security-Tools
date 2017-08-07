@@ -4,7 +4,7 @@
 import passlib
 import crypt
 import sys
-
+ 
 def testPass(cryptPass):
     salt = cryptPass[0:2]
 
